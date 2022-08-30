@@ -102,7 +102,7 @@ const generateId = () => {
   return maxId + 1
 }
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', db.createNotes, (request, response) => {
   const body = request.body
 
   if (!body.content) {
