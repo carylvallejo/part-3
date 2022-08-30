@@ -1,6 +1,52 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const db = require('./queries')
+//const bodyParser = require('body-parser')
+
+// const pgtools = require("pgtools");
+
+// const Client = require('pg').Client
+
+// const client = new Client({
+//   host: "localhost",
+//   user: "postgres",
+//   port: 5432,
+//   password: "postgrespw",
+//   database: "myFirstDb"
+// })
+
+// client.connect();
+
+// client.query(`Select * from notes`, (req, res) => {
+//   if (req) {
+//     console.log(res.rows);
+//   } client.end
+// }) 
+/*
+client.query(`Select * from notes`, (err, res) => {
+  if (!err) {
+    console.log(res.rows);
+  } else {
+    console.log(err.message)
+  }
+    client.end
+}) */
+
+// const config = {
+//   user: "postgres",
+//   host: "localhost",
+//   password: "postgrespw",
+//   port: 5432
+// };
+
+// pgtools.createdb(config, "myFirstDb", function(err, res) {
+//   if (err) {
+//     console.error(err);
+//     process.exit(-1);
+//   }
+//   console.log(res);
+// });
 
 let notes = [
   {
@@ -37,6 +83,14 @@ app.use(requestLogger)
 app.use(cors())
 app.use(express.static('build'))
 
+/*
+app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+) */
+
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
@@ -69,18 +123,18 @@ app.post('/api/notes', (request, response) => {
   response.json(note)
 })
 
-app.get('/api/notes', (req, res) => {
+app.get('/api/notes', db.getNotes, (req, res) => {
   res.json(notes)
 })
 
-app.delete('/api/notes/:id', (request, response) => {
+app.delete('/api/notes/:id', db.deleteNote, (request, response) => {
   const id = Number(request.params.id)
   notes = notes.filter(note => note.id !== id)
 
   response.status(204).end()
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', db.getNotesById, (request, response) => {
   const id = Number(request.params.id)
   const note = notes.find(note => note.id === id)
 
