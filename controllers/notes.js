@@ -2,9 +2,9 @@ const notesRouter = require('express').Router()
 const { response } = require('express')
 const Note = require('../models/note')
 
-notesRouter.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
-})
+// notesRouter.get('/', (req, res) => {
+//   res.send('<h1>Hello World!</h1>')
+// })
 
 // const generateId = () => {
 //   const maxId = notes.length > 0
@@ -14,7 +14,7 @@ notesRouter.get('/', (req, res) => {
 // }
 
 //done
-notesRouter.post('/api/notes', db.createNotes, (request, response, next) => {
+notesRouter.post('/', db.createNotes, (request, response, next) => {
   const body = request.body
 
   // if (body.content === undefined) {
@@ -38,14 +38,14 @@ notesRouter.post('/api/notes', db.createNotes, (request, response, next) => {
 })
 
 //done
-notesRouter.get('/api/notes', db.getNotes, (req, res, next) => {
+notesRouter.get('/', db.getNotes, (req, res, next) => {
   notes.find(note => note.id === id).then(notes => {
     res.json(notes)
   })
 })
 
 //done
-notesRouter.put('/api/notes/:id', db.updateNote, (req, res) => {
+notesRouter.put('/:id', db.updateNote, (req, res) => {
   const body = request.body
   const id = Number(request.params.id)
   const notes = notes.find(note => note.id !== id)
@@ -58,7 +58,7 @@ notesRouter.put('/api/notes/:id', db.updateNote, (req, res) => {
 })
 
 //part 3 -- letter C --done
-notesRouter.get('/api/notes/:id', db.getNotesById, (request, response, next) => {
+notesRouter.get('/:id', db.getNotesById, (request, response, next) => {
   const id = Number(request.params.id)
   const note = notes.find(note => note.id === id)
   note.getNotesById(request.params.id)
@@ -73,7 +73,7 @@ notesRouter.get('/api/notes/:id', db.getNotesById, (request, response, next) => 
 })
 
 //done
-notesRouter.delete('/api/notes/:id', db.deleteNote, (request, response) => {
+notesRouter.delete('/:id', db.deleteNote, (request, response) => {
   const id = parseInt(request.params.id)
   notes = notes.filter(note => note.id !== id)
 
