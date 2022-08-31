@@ -38,7 +38,7 @@ notesRouter.post('/', db.createNotes, (request, response, next) => {
 })
 
 //done
-notesRouter.get('/', db.getNotes, (req, res, next) => {
+notesRouter.get('/api/notes', db.getNotes, (req, res, next) => {
   notes.find(note => note.id === id).then(notes => {
     res.json(notes)
   })
