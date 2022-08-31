@@ -37,14 +37,14 @@ const createNotes = (request, response) => {
     response.status(201).send(`Notes added with ID: ${results.rows[0].id}`);
   })
 }
-/*
+
 const updateNote = (request, response) => {
   const id = parseInt(request.params.id)
   const { content } = request.body
 
   pool.query(
     'UPDATE notes_table SET content = $1 WHERE id = $2',
-    [content],
+    [content, id],
     (error, results) => {
       if (error) {
         throw error
@@ -52,10 +52,10 @@ const updateNote = (request, response) => {
       response.status(200).send(`Notes modified with ID: ${id}`)
     }
   )
-} */
+} 
 
 const deleteNote = (request, response) => {
-  const id = Number(request.params.id)
+  const id = parseInt(request.params.id)
 
   pool.query('DELETE FROM notes_table WHERE id = $1', [id], (error, results) => {
     if (error) {
@@ -63,12 +63,12 @@ const deleteNote = (request, response) => {
     }
     response.status(200).send(`Note deleted with ID: ${id}`)
   })
-}
+}  
 
 module.exports = {
   getNotes,
   getNotesById,
   createNotes,
-  //updateNote,
+  updateNote,
   deleteNote,
 }
